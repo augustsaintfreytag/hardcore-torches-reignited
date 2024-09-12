@@ -309,10 +309,6 @@ public class TorchItem extends VerticallyAttachableBlockItem implements Lightabl
 	// Modification
 
 	public static ItemStack modifiedStackWithState(World world, ItemStack stack, ETorchState newState) {
-		if (world.isClient) {
-			return stack;
-		}
-
 		if (!(stack.getItem() instanceof TorchItem)) {
 			return ItemStack.EMPTY;
 		}
@@ -349,10 +345,6 @@ public class TorchItem extends VerticallyAttachableBlockItem implements Lightabl
 	}
 
 	public static ItemStack modifiedStackWithAddedFuel(World world, ItemStack stack, int amount) {
-		if (world.isClient) {
-			return stack;
-		}
-
 		if (!(stack.getItem() instanceof TorchItem)) {
 			return stack;
 		}
