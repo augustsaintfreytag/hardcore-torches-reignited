@@ -105,7 +105,7 @@ public interface CampfireBlockMixinLogic {
 			player.swingHand(hand);
 		}
 
-		return ActionResult.CONSUME;
+		return ActionResult.SUCCESS;
 	}
 
 	private void displayFuelMessage(PlayerEntity player, int fuel) {
