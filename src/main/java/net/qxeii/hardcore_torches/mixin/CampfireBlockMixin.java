@@ -22,14 +22,18 @@ public abstract class CampfireBlockMixin implements CampfireBlockMixinLogic {
 	@Inject(method = "getPlacementState", at = @At("RETURN"), cancellable = true)
 	private void getPlacementState(ItemPlacementContext context,
 			CallbackInfoReturnable<BlockState> callbackInfo) {
-		callbackInfo.setReturnValue(injectedGetPlacementState(context, callbackInfo.getReturnValue()));
+		var placementState = injectedGetPlacementState(context, callbackInfo.getReturnValue());
+		callbackInfo.setReturnValue(placementState);
 	}
 
 	@Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
 	public void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit,
 			CallbackInfoReturnable<ActionResult> callbackInfo) {
 		var useActionResult = injectedOnUse(state, world, pos, player, hand, hit);
-		callbackInfo.setReturnValue(useActionResult);
+
+		if (useActionResult.isAccepted()) {
+			callbackInfo.cancel();
+		}
 	}
 
 }
