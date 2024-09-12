@@ -25,6 +25,10 @@ public interface InventoryTickMixinLogic {
 		var stack = inventory.getStack(slot);
 		var item = stack.getItem();
 
+		if (stack.isEmpty()) {
+			return;
+		}
+
 		if (Mod.config.convertVanillaTorches && item == Items.TORCH) {
 			convertVanillaTorch(inventory, stack, slot);
 			return;
