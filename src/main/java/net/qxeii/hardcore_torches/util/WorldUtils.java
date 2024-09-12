@@ -2,6 +2,7 @@ package net.qxeii.hardcore_torches.util;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionTypes;
@@ -24,11 +25,19 @@ public class WorldUtils {
 	}
 
 	public static boolean worldIsRaining(World world, BlockEntity entity) {
-		return world.hasRain(entity.getPos().offset(Direction.UP, 1));
+		return worldIsRaining(world, entity.getPos());
+	}
+
+	public static boolean worldIsRaining(World world, BlockPos position) {
+		return world.hasRain(position.offset(Direction.UP, 1));
 	}
 
 	public static boolean worldIsDaytime(World world) {
-		return (world.getTimeOfDay() % getWorldDayLength()) < getWorldDaytimeLength();
+		return worldIsDaytime(world.getTimeOfDay());
+	}
+
+	public static boolean worldIsDaytime(long time) {
+		return (time % getWorldDayLength()) < getWorldDaytimeLength();
 	}
 
 	public static boolean worldIsNighttime(World world) {
