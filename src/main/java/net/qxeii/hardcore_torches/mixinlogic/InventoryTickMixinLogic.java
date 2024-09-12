@@ -18,7 +18,7 @@ import net.qxeii.hardcore_torches.util.WorldUtils;
 public interface InventoryTickMixinLogic {
 
 	public default void tickItem(ServerWorld world, PlayerEntity player, PlayerInventory inventory, int slot) {
-		if (world.isClient || !Mod.config.tickInInventory || player.isCreative() || player.isSpectator()) {
+		if (!Mod.config.tickInInventory || player.isCreative() || player.isSpectator()) {
 			return;
 		}
 
