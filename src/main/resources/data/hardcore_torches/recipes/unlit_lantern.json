@@ -8,7 +8,7 @@
 			"item": "minecraft:copper_ingot"
 		},
 		"|": {
-			"tag": "minecraft:string"
+			"item": "minecraft:string"
 		},
 		"F": {
 			"item": "minecraft:flint_and_steel"

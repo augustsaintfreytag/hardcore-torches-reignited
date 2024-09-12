@@ -51,6 +51,7 @@ import net.qxeii.hardcore_torches.loot.LanternLootFunction;
 import net.qxeii.hardcore_torches.loot.TorchLootFunction;
 import net.qxeii.hardcore_torches.recipe.CandleRecipe;
 import net.qxeii.hardcore_torches.recipe.FuelCanRecipe;
+import net.qxeii.hardcore_torches.recipe.UnlitLanternRecipe;
 import net.qxeii.hardcore_torches.recipe.UnlitTorchRecipe;
 import net.qxeii.hardcore_torches.util.ETorchState;
 import net.qxeii.hardcore_torches.util.TorchGroup;
@@ -200,10 +201,12 @@ public class Mod implements ModInitializer {
 
 	public static final RecipeType<FuelCanRecipe> FUEL_CAN_RECIPE = RecipeType.register("hardcore_torches:fuel_can");
 	public static final RecipeType<UnlitTorchRecipe> TORCH_RECIPE = RecipeType.register("hardcore_torches:torch");
+	public static final RecipeType<UnlitLanternRecipe> LANTERN_RECIPE = RecipeType.register("hardcore_torches:lantern");
 	public static final RecipeType<CandleRecipe> CANDLE_RECIPE = RecipeType.register("hardcore_torches:candle");
 
 	public static RecipeSerializer<FuelCanRecipe> FUEL_RECIPE_SERIALIZER;
 	public static RecipeSerializer<UnlitTorchRecipe> UNLIT_TORCH_RECIPE_SERIALIZER;
+	public static RecipeSerializer<UnlitLanternRecipe> UNLIT_LANTERN_RECIPE_SERIALIZER;
 	public static RecipeSerializer<CandleRecipe> CANDLE_RECIPE_SERIALIZER;
 
 	@Override
@@ -415,8 +418,13 @@ public class Mod implements ModInitializer {
 		// Recipe Types
 		FUEL_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER,
 				new Identifier("hardcore_torches", "fuel_can"), new FuelCanRecipe.Serializer());
+
 		UNLIT_TORCH_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER,
 				new Identifier("hardcore_torches", "unlit_torch"), new UnlitTorchRecipe.Serializer());
+
+		UNLIT_LANTERN_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER,
+				new Identifier("hardcore_torches", "unlit_lantern"), new UnlitLanternRecipe.Serializer());
+		
 		CANDLE_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER,
 				new Identifier("hardcore_torches", "candle"), new CandleRecipe.Serializer());
 
