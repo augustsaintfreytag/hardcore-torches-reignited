@@ -32,6 +32,7 @@ public abstract class CampfireBlockMixin implements CampfireBlockMixinLogic {
 		var useActionResult = injectedOnUse(state, world, pos, player, hand, hit);
 
 		if (useActionResult.isAccepted()) {
+			callbackInfo.setReturnValue(useActionResult);
 			callbackInfo.cancel();
 		}
 	}

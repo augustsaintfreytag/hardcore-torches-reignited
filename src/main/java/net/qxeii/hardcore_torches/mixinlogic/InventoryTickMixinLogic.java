@@ -258,8 +258,6 @@ public interface InventoryTickMixinLogic {
 
 					fuelUse = fuelUse + jitterFuelUse;
 				}
-			} else {
-				Mod.LOGGER.info("Fuel use in tick: " + fuelUse);
 			}
 		}
 
