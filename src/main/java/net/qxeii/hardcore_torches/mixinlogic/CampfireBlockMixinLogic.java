@@ -65,7 +65,7 @@ public interface CampfireBlockMixinLogic {
 		var stack = player.getStackInHand(hand);
 
 		if (stack.isEmpty() && player.isSneaking()) {
-			if (world.isClient && Mod.config.fuelMessage) {
+			if (world.isClient) {
 				displayFuelMessage(player, campfireBlockEntity.getFuel());
 			}
 
@@ -108,9 +108,7 @@ public interface CampfireBlockMixinLogic {
 				world.playSound(null, pos, Mod.CAMPFIRE_LOG_PLACE_SOUND, SoundCategory.BLOCKS, 0.75F, 1.75F);
 			}
 
-			if (Mod.config.fuelMessage) {
-				displayFuelMessage(player, campfireBlockEntity.getFuel());
-			}
+			displayFuelMessage(player, campfireBlockEntity.getFuel());
 		} else {
 			player.swingHand(hand);
 		}

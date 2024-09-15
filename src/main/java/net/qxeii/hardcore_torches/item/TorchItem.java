@@ -136,10 +136,7 @@ public class TorchItem extends VerticallyAttachableBlockItem implements Lightabl
 		ETorchState torchState = ((TorchItem) stack.getItem()).getTorchState();
 
 		if (player.isSneaking()) {
-			if (Mod.config.fuelMessage) {
-				displayFuelMessage(world, player, stack);
-			}
-
+			displayFuelMessage(world, player, stack);
 			return super.use(world, player, hand);
 		}
 
