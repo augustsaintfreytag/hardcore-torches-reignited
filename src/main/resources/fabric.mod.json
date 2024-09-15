@@ -4,7 +4,7 @@
 	"version": "${version}",
 
 	"name": "Hardcore Torches",
-	"description": "Makes light sources burn out over time and adds lanterns with fuel.",
+	"description": "Introduces torches, lanterns, and campfires with limited fuel and custom mechanics.",
 	"authors": ["qxeii", "saint"],
 	"contact": {
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/hardcore-torches-reignited",
