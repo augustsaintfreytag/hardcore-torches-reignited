@@ -1,3 +1,3 @@
-# Minecraft Hardcore Torches
+# Minecraft Torches & Fires
 
-An opinionated fork and rewrite of the Hardcore Torches mod for Minecraft, originally created by WolfieWaffle, developed for version 1.20.1 for Fabric.
+An opinionated fork and rewrite of the Hardcore Torches mod for Minecraft, originally created by WolfieWaffle, developed for version 1.20.1 for Fabric. Adds fuel mechanics to torches, campfires, and compatible blocks of other mods (e.g. the Farmer's Delight stove block). Blocks burn through fuel and extinguish on their own when running out. Blocks and held items can be manually lit and extinguished through normal interaction. Rainfall or going underwater while holding them may extinguish torches and campfires. Campfires and stoves can be refuelled by placing any burnable item (e.g. coal, logs, wooden scrap) in them by right-clicking with a satisfying sound. Live your extended *The Long Dark* experience today.
