@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": ["###", 
+				"#|#", 
+				"#F#"],
+	"key": {
+		"#": {
+			"item": "minecraft:copper_ingot"
+		},
+		"|": {
+			"item": "minecraft:string"
+		},
+		"F": {
+			"item": "minecraft:flint_and_steel"
+		}
+	},
+	"result": {
+		"item": "hardcore_torches:unlit_lantern",
+		"count": 1
+	}
+}
