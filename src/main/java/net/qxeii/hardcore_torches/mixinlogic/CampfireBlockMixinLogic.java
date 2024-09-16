@@ -15,7 +15,6 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -27,6 +26,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.qxeii.hardcore_torches.Mod;
+import net.qxeii.hardcore_torches.util.InteractionUtils;
 import net.qxeii.hardcore_torches.util.WorldUtils;
 
 public interface CampfireBlockMixinLogic {
@@ -62,9 +62,9 @@ public interface CampfireBlockMixinLogic {
 		var campfireBlockEntity = (CampfireBlockEntityMixinLogic) (Object) blockEntity;
 		var isLit = state.get(LIT);
 
-		var stack = player.getStackInHand(hand);
+		var heldStack = player.getStackInHand(hand);
 
-		if (stack.isEmpty() && player.isSneaking()) {
+		if (heldStack.isEmpty() && player.isSneaking()) {
 			if (world.isClient) {
 				displayFuelMessage(player, campfireBlockEntity.getFuel());
 			}
@@ -72,17 +72,13 @@ public interface CampfireBlockMixinLogic {
 			return ActionResult.PASS;
 		}
 
-		var stackIsShovel = stack.isIn(Mod.CAMPFIRE_SHOVELS);
-		var stackIsCoal = stack.isIn(Mod.CAMPFIRE_FUELS);
-		var stackIsLog = stack.isIn(Mod.CAMPFIRE_LOG_FUELS);
-
-		if (stackIsShovel) {
+		if (heldStack.isIn(Mod.CAMPFIRE_SHOVELS)) {
 			if (!isLit) {
 				return ActionResult.PASS;
 			}
 
 			CampfireBlockEntityMixinLogic.extinguish(world, pos, state);
-			useShovelItemStack(stack, player, hand);
+			useShovelItemStack(heldStack, player, hand);
 
 			if (world.isClient) {
 				player.swingHand(hand);
@@ -91,29 +87,23 @@ public interface CampfireBlockMixinLogic {
 			return ActionResult.SUCCESS;
 		}
 
-		if (!stackIsCoal && !stackIsLog) {
-			return ActionResult.PASS;
+		var heldItem = heldStack.getItem();
+		var itemFuelValue = FuelRegistry.INSTANCE.get(heldItem);
+
+		if (itemFuelValue != null && itemFuelValue > 0) {
+			var campfireFuel = campfireBlockEntity.getFuel();
+			var updatedCampfireFuel = campfireFuel + itemFuelValue * Mod.config.campfireFuelAdditionMultiplier;
+
+			heldStack.setCount(heldStack.getCount() - 1);
+			campfireBlockEntity.setFuel(updatedCampfireFuel);
+
+			InteractionUtils.playItemRefuellingSound(world, pos, heldStack);
+			InteractionUtils.swingHand(world, player);
+
+			return ActionResult.SUCCESS;
 		}
 
-		var item = stack.getItem();
-		var itemFuelValue = FuelRegistry.INSTANCE.get(item) * Mod.config.campfireFuelAdditionMultiplier;
-
-		if (!world.isClient) {
-			stack.setCount(stack.getCount() - 1);
-			campfireBlockEntity.setFuel(campfireBlockEntity.getFuel() + itemFuelValue);
-
-			if (stackIsLog) {
-				world.playSound(null, pos, Mod.CAMPFIRE_LOG_PLACE_SOUND, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			} else if (stackIsCoal) {
-				world.playSound(null, pos, Mod.CAMPFIRE_LOG_PLACE_SOUND, SoundCategory.BLOCKS, 0.75F, 1.75F);
-			}
-
-			displayFuelMessage(player, campfireBlockEntity.getFuel());
-		} else {
-			player.swingHand(hand);
-		}
-
-		return ActionResult.SUCCESS;
+		return ActionResult.PASS;
 	}
 
 	private void useShovelItemStack(ItemStack stack, PlayerEntity player, Hand itemHand) {
@@ -127,10 +117,10 @@ public interface CampfireBlockMixinLogic {
 		var itemSlot = player.getInventory().getSlotWithStack(stack);
 
 		player.sendEquipmentBreakStatus(equipmentSlot);
-		
+
 		if (!FabricLoader.getInstance().isModLoaded("ruined_equipment")) {
 			// If equipment mod is not loaded, item can be removed directly.
-			
+
 			player.getInventory().removeStack(itemSlot);
 			return;
 		}
@@ -153,14 +143,12 @@ public interface CampfireBlockMixinLogic {
 
 	private Map<String, Identifier> shovelItemMap() {
 		return new HashMap<String, Identifier>(
-			Map.of(
-				"minecraft:wooden_shovel", new Identifier("ruined_equipment", "ruined_wooden_shovel"),
-				"minecraft:stone_shovel", new Identifier("ruined_equipment", "ruined_stone_shovel"),
-				"minecraft:iron_shovel", new Identifier("ruined_equipment", "ruined_iron_shovel"),
-				"minecraft:golden_shovel", new Identifier("ruined_equipment", "ruined_golden_shovel"),
-				"minecraft:diamond_shovel", new Identifier("ruined_equipment", "ruined_diamond_shovel")
-			)
-		);
+				Map.of(
+						"minecraft:wooden_shovel", new Identifier("ruined_equipment", "ruined_wooden_shovel"),
+						"minecraft:stone_shovel", new Identifier("ruined_equipment", "ruined_stone_shovel"),
+						"minecraft:iron_shovel", new Identifier("ruined_equipment", "ruined_iron_shovel"),
+						"minecraft:golden_shovel", new Identifier("ruined_equipment", "ruined_golden_shovel"),
+						"minecraft:diamond_shovel", new Identifier("ruined_equipment", "ruined_diamond_shovel")));
 	}
 
 }
