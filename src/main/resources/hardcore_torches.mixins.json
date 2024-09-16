@@ -3,12 +3,15 @@
 	"minVersion": "0.8",
 	"package": "net.qxeii.hardcore_torches.mixin",
 	"compatibilityLevel": "JAVA_16",
+	"plugin": "net.qxeii.hardcore_torches.ModMixinPlugin",
 	"mixins": [
 		"InventoryPlacementMixin",
 		"InventoryTickMixin",
 		"FlintAndSteelItemMixin",
 		"CampfireBlockMixin",
 		"CampfireBlockEntityMixin",
+		"StoveBlockMixin",
+		"StoveBlockEntityMixin",
 		"SpawnHelperMixin"
 	],
 	"client": [],
