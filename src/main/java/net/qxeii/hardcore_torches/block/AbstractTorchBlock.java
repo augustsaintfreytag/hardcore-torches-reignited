@@ -161,7 +161,7 @@ public abstract class AbstractTorchBlock extends BlockWithEntity implements Ligh
 		// Fuel Check
 
 		if (stack.isEmpty() && player.isSneaking()) {
-			if (Mod.config.fuelMessage && !world.isClient) {
+			if (!world.isClient) {
 				var blockEntity = (FuelBlockEntity) world.getBlockEntity(position);
 				displayFuelMessage(world, player, blockEntity);
 			}
