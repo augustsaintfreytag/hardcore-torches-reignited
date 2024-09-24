@@ -84,6 +84,7 @@
 	"text.autoconfig.hardcore_torches.option.invExtinguishInRain": "Inventory extinguish in rain",
 	"text.autoconfig.hardcore_torches.option.startingLanternFuel": "Starting lantern fuel",
 	"text.autoconfig.hardcore_torches.option.pickUpLanterns": "Pick up lanterns",
+	"text.autoconfig.hardcore_torches.option.preventUnwantedOffHandInteraction": "Prevent unwanted off-hand interaction",
 	"text.autoconfig.hardcore_torches.option.defaultCandleFuel": "Default candle fuel",
 	"text.autoconfig.hardcore_torches.option.defaultGlowstoneFuel": "Default glowstone fuel",
 	"text.autoconfig.hardcore_torches.option.defaultShroomlightFuel": "Default shroomlight fuel",
