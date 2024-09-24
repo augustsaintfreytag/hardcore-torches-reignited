@@ -2,6 +2,7 @@ package net.qxeii.hardcore_torches.item;
 
 import static net.minecraft.util.math.MathHelper.clamp;
 
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -29,10 +30,18 @@ import net.qxeii.hardcore_torches.util.WorldUtils;
 
 public class TorchItem extends VerticallyAttachableBlockItem implements LightableItem {
 
+	// Properties
+
 	ETorchState torchState;
 	TorchGroup torchGroup;
 
 	int maxFuel;
+
+	long lastPreventingInteractionTick = 0;
+
+	private static final long INTERACTION_PREVENTION_COOLDOWN_TICKS = 50;
+
+	// Init
 
 	public TorchItem(Block standingBlock, Block wallBlock, Item.Settings settings, ETorchState torchState, int maxFuel,
 			TorchGroup group) {
@@ -41,6 +50,17 @@ public class TorchItem extends VerticallyAttachableBlockItem implements Lightabl
 		this.torchGroup = group;
 		this.torchState = torchState;
 		this.maxFuel = maxFuel;
+
+		UseItemCallback.EVENT.register((player, world, hand) -> {
+			var stackInHand = player.getStackInHand(hand);
+
+			if (!stackInHand.getItem().isFood()) {
+				return TypedActionResult.pass(stackInHand);
+			}
+
+			lastPreventingInteractionTick = world.getTime();
+			return TypedActionResult.pass(stackInHand);
+		});
 	}
 
 	// State & Properties
@@ -124,6 +144,10 @@ public class TorchItem extends VerticallyAttachableBlockItem implements Lightabl
 		return oldNbt == null || oldNbt.equals(null);
 	}
 
+	private boolean didRecentlyUsePreventingItem(World world) {
+		return lastPreventingInteractionTick + INTERACTION_PREVENTION_COOLDOWN_TICKS > world.getTime();
+	}
+
 	// Interaction
 
 	@Override
@@ -137,6 +161,11 @@ public class TorchItem extends VerticallyAttachableBlockItem implements Lightabl
 
 		if (player.isSneaking()) {
 			displayFuelMessage(world, player, stack);
+			return super.use(world, player, hand);
+		}
+
+		if (Mod.config.preventUnwantedOffHandInteraction && hand == Hand.OFF_HAND
+				&& didRecentlyUsePreventingItem(world)) {
 			return super.use(world, player, hand);
 		}
 
