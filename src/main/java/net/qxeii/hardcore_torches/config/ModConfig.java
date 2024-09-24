@@ -40,6 +40,9 @@ public class ModConfig implements ConfigData {
 	@Comment("Allow the player to pick up lanterns with sneak-clicking. Default: true")
 	public boolean pickUpLanterns = true;
 
+	@Comment("Prevent the player from lighting, extinguishing, or placing torches in the off-hand after just having eaten food. Default: true")
+	public boolean preventUnwantedOffHandInteraction = true;
+
 	// Random Effects
 
 	@Comment("Chance value for a smoldering torch to consume fuel per tick (1/x, default 1/5). Default: 5")
