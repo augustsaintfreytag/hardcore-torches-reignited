@@ -107,7 +107,6 @@ public interface InventoryTickMixinLogic {
 					return;
 				}
 
-				inventory.setStack(slot, modifiedStack);
 				return;
 			}
 
@@ -178,8 +177,9 @@ public interface InventoryTickMixinLogic {
 		var position = player.getBlockPos();
 		var stack = inventory.getStack(slot);
 		var item = (TorchItem) stack.getItem();
+		var torchState = item.getTorchState();
 
-		if (item.getTorchState() == ETorchState.UNLIT) {
+		if (torchState == ETorchState.UNLIT || torchState == ETorchState.BURNT) {
 			return;
 		}
 
@@ -221,7 +221,7 @@ public interface InventoryTickMixinLogic {
 		var torchItem = (TorchItem) stack.getItem();
 		var torchState = torchItem.getTorchState();
 
-		if (torchState == ETorchState.UNLIT) {
+		if (torchState == ETorchState.UNLIT || torchState == ETorchState.BURNT) {
 			return;
 		}
 
